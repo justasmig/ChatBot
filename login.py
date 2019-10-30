@@ -27,6 +27,9 @@ def not_registered():
     Label(GUI_Screen_05, text="There's no user with that username registered!").pack()
 
 
+
+
+
 def sucessfully_registered():
     print("It Works!")
 
