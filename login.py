@@ -141,9 +141,7 @@ def about_chatbot():
     Label(GUI_Screen_02, text="Here's what you need to know").pack()
 
 def main_screen():
-    global Interface
-    Interface = Tk()
-    Interface.geometry("300x300")
+    Interface.geometry("1000x800")
     Interface.title("ChatBot")
     Label(text="Welcome Humans", bg="skyblue", width="300", height="1", font=("Hasty", 20)).pack()
     Label(text="").pack()
