@@ -4,11 +4,35 @@ import PIL
 from PIL import Image,ImageTk
 import pytesseract
 import cv2
+import numpy as np
 
 width, height = 800, 600
 cap = cv2.VideoCapture(0)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
+
+#loading up OpenCV pretrained classifiers. source https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_objdetect/py_face_detection/py_face_detection.html#haar-cascade-detection-in-opencv
+face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+#eye_cascade = cv2.CascadeClassifier('haarcascade_eye.xml')
+
+
+
+Interface = Tk()
+mainInt = Label(Interface)
+mainInt.pack()
+
+def launch_face():
+    ret, frame = cap.read()
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+    for (x,y,w,h) in faces:
+        frame = cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),2)
+    rgbImg = cv2.cvtColor(frame, cv2.COLOR_BGR2RGBA)
+    img = PIL.Image.fromarray(rgbImg)
+    imgtk = ImageTk.PhotoImage(image=img)
+    mainInt.imgtk = imgtk
+    mainInt.configure(image=imgtk)
+    mainInt.after(1, launch_face)
 
 def LoggedIn_Sucessfully():
     global GUI_Screen_03
@@ -34,19 +58,6 @@ def not_registered():
     GUI_Screen_05.title("You are in!")
     GUI_Screen_05.geometry("220x140")
     Label(GUI_Screen_05, text="There's no user with that username registered!").pack()
-
-Interface = Tk()
-mainInt = Label(Interface)
-mainInt.pack()
-
-def launch_face():
-    ret, frame = cap.read()
-    rgbImg = cv2.cvtColor(frame, cv2.COLOR_BGR2RGBA)
-    img = PIL.Image.fromarray(rgbImg)
-    imgtk = ImageTk.PhotoImage(image=img)
-    mainInt.imgtk = imgtk
-    mainInt.configure(image=imgtk)
-    mainInt.after(10, launch_face)
 
 
 def sucessfully_registered():
@@ -153,4 +164,5 @@ def main_screen():
     Label(text="").pack()
     Button(text="Login using face!", height="1", width="32", command=launch_face).pack()
     Interface.mainloop()
+    
 main_screen()
