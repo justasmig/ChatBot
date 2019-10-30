@@ -1,5 +1,14 @@
 from tkinter import *
 import os
+import PIL
+from PIL import Image,ImageTk
+import pytesseract
+import cv2
+
+width, height = 800, 600
+cap = cv2.VideoCapture(0)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
 
 def LoggedIn_Sucessfully():
     global GUI_Screen_03
@@ -26,8 +35,18 @@ def not_registered():
     GUI_Screen_05.geometry("220x140")
     Label(GUI_Screen_05, text="There's no user with that username registered!").pack()
 
+Interface = Tk()
+mainInt = Label(Interface)
+mainInt.pack()
 
-
+def launch_face():
+    ret, frame = cap.read()
+    rgbImg = cv2.cvtColor(frame, cv2.COLOR_BGR2RGBA)
+    img = PIL.Image.fromarray(rgbImg)
+    imgtk = ImageTk.PhotoImage(image=img)
+    mainInt.imgtk = imgtk
+    mainInt.configure(image=imgtk)
+    mainInt.after(10, launch_face)
 
 
 def sucessfully_registered():
@@ -124,7 +143,7 @@ def about_chatbot():
 def main_screen():
     global Interface
     Interface = Tk()
-    Interface.geometry("300x250")
+    Interface.geometry("300x300")
     Interface.title("ChatBot")
     Label(text="Welcome Humans", bg="skyblue", width="300", height="1", font=("Hasty", 20)).pack()
     Label(text="").pack()
@@ -133,5 +152,7 @@ def main_screen():
     Button(text="Register", height="2", width="32", command=new_user_registration).pack()
     Label(text="").pack()
     Button(text="About", height="1", width="15", command=about_chatbot).pack()
+    Label(text="").pack()
+    Button(text="Login using face!", height="1", width="32", command=launch_face).pack()
     Interface.mainloop()
 main_screen()
