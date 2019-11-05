@@ -1,46 +1,44 @@
+from chatterbot import ChatBot
 from tkinter import *
-from tkinter import scrolledtext
-from random import choice
 
-# I called this interface frame
-frame = Tk()
-user = StringVar()
-
-ask=["hi","How are you?","Hello"]
-ans=["Fine","I am ok, how are you?"]
-error=["I didn't have that answer in my database!"]
-
-def chatbotinter():
-
-#this is the title of the frame
-frame.title("Our chatbot")
-
-#this is the size of frame
-frame.geometry('400x550')
-
-#this is label set
-label1=Label(frame, text="user")
-label1.grid(row=1,column=0)
-
-user_text=StringVar()
-text=Entry(frame,textvariable=user_text)
-text.grid(row=1,column=2)
-
-txt = scrolledtext.ScrolledText(frame)
-massages = Listbox(frame,width=40,height=20)
-
-txt.grid(row=0,column=2)
-chatbotinter()
-
-# def clicked():
-#     question=user_text.get()
-#     if question in ask:
-#         massages.insert(END,"you : " + choice(ans))
-#     #else:
+bot = ChatBot("Riven")
 
 
 
-button1=Button(frame, text="send",command=clicked, bg="blue", fg="white")
-button1.grid(row=1,column=3)
+window = Tk()
 
-frame.mainloop()
+window.geometry("500x650")
+
+window.title("Our Chatbot")
+
+icon = PhotoImage(file="chatbot.png")
+photo = Label(window, image=icon)
+photo.pack(pady=5)
+
+frame = Frame(window)
+
+readBox = Scrollbar(frame)
+message = Listbox(frame,width=80,height=20)
+
+readBox.pack(side=RIGHT,fill=Y)
+
+message.pack(side=LEFT,fill=BOTH,pady=10)
+
+frame.pack()
+
+textField= Entry(window,font=("Arial",10))
+textField.pack(fill=X,pady=10)
+
+def ask():
+    question = textField.get()
+    answer = bot.get_response(question)
+    message.insert(END, "you : " + question)
+    print(type(answer))
+    message.insert(END, "bot : " + str(answer))
+    textField.delete(0, END)
+
+
+btn = Button(window,text="Send",font=10,command=ask)
+btn.pack()
+
+window.mainloop()
