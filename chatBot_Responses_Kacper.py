@@ -1,14 +1,15 @@
+#in lines 2-5 - importing functions and modules I will use
 from random import choice
 from random import randint
 from time import sleep
 import datetime
 
-
-Greeting = [ "Welcome", "What's up", "Hello", "Nice to meet you.", "Well hello!",  ]
+Greeting = ( "Welcome", "What's up", "Hello", "Nice to meet you.", "Well hello!", )
 optionsOfChatB = ("1) Ask a question" ,  '2) Get the information about current time and date', '3) Get a joke or a fact ', '4) Run the calculator',
                   '5) Make a simulation of flipping a coin or rolling six sided dice', "6) Sort a list of number", "Finish the conversation")
-invitationToAsk = [ "Give me a hard query, please", "Do you want to know the answer for any question?, ask me", "What question do you want to know answer for?" ]
-i=1
+invitationToAsk =  ("Give me a hard query, please", "Do you want to know the answer for any question?, ask me", "What question do you want to know answer for?")
+
+# in lines 13-33 -createed a function which answers various questions and have 3 diffrent answers for every question
 def queries():
     user =input("Robot says: " +  choice(invitationToAsk) + "\n ")
 
@@ -30,7 +31,9 @@ def queries():
     elif user == "why are you still typing to me? ":
         answers = [ "Because, I like you", "That is just how I am programmed", "I am depressed"]
         return (choice(answers))
+# 35-43 function which answers various questions and have 3 diffrent answers for every question
 def timeDate():
+# lines 37 to 43 ask the user what he wants, checks what the user ask for time, date or both and return it
     user = input("What would you like to know time, date or both?: ")
     if user == "time":
         return (time)
