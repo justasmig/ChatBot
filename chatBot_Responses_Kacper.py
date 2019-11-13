@@ -41,9 +41,11 @@ def timeDate():
         return  (date)
     else:
         return (time + "  " + date)
+# lines 45-64 function which hive the user a joke or a fact from files
 def jokesAndFacts():
     user = input("What would you like to get a joke whether a fact?: ")
-
+#lines 49-56 open file with facts, pick a random fact number, close file and return picked fact
+#lines 57-64 the same as above but for joke
     if user =="fact":
         f = open("facts.txt", "r")
         numRand = randint(0, 9)
@@ -60,11 +62,13 @@ def jokesAndFacts():
                 lineRand = line
         j.close()
         return lineRand
+# lines 66-85 -function which calculate chosen mathematical operation of two numbers
 def calculator():
+# 68-70 - get the input of and the operator
     num1 = float (input("Enter  first number: "))
     op = input("Enter the operator: ")
     num2 = float (input("Enter  second number: "))
-
+# lines 72-83 - check the operation between addition, subtraction, multiplication, division, modulo and power
     if op == "+":
         return num1+num2
     elif op =="-":
@@ -79,13 +83,16 @@ def calculator():
         return  num1**num2
     else:
         return "The given operator was not recognized"
+#lines 88-103 - funtion which give the result of filping a coin
 def coin():
     flip=True
+# while loop on line 90 to 102 will run until the user press "q"
     while flip:
         toFlip=input("Press Enter to flip or press q to Quit ")
         if toFlip =="q":
             flip=False
         else:
+#if the user will not stop the loop, it will randomly pick the answer of fliping, tell that coin is fliping, wait a while then show the answer
             result = randint(0, 1)
             print("Coin is fliping...")
             sleep(2.5)
@@ -94,6 +101,7 @@ def coin():
             else:
                 print ("Your flip is tail")
     print("Thanks for the game")
+#lines 105-116 - funtion which give the result of rolling the dice, which is almost equal to the coin function
 def dice():
     roll=True
     while roll:
@@ -106,6 +114,7 @@ def dice():
             sleep(2.5)
             print("You rolled a", result)
     print("Thanks for the game")
+# in lines 118-133 there is a function which take a list of numbers given by user and return the list sorted
 def quickSort(listN):
     smaller = []
     larger = []
@@ -122,6 +131,7 @@ def quickSort(listN):
         return quickSort(smaller)+ equal + quickSort(larger)
     else:
         return listN
+i=1
 while i>0:
     print(choice(Greeting) )
     for option in range (len(optionsOfChatB)):
