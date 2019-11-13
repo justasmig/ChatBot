@@ -1,6 +1,4 @@
-#from chatterbot import ChatBot
 from tkinter import *
-#bot = ChatBot("Riven")
 from chatbotUtils.setup.settings import hparams, out_dir, preprocessing, score as score_settings
 from chatbotUtils.inference import * 
 
@@ -14,9 +12,6 @@ def chatbotWindow():
 
         window.title("Our Chatbot")
 
-        # icon = PhotoImage(file="chatbot.png")
-        # photo = Label(window, image=icon)
-        # photo.pack(pady=5)
 
         frame = Frame(window)
 
@@ -43,7 +38,6 @@ def chatbotWindow():
                     message.insert(END, "bot : " + "{}- {}{} [{}] {}{}{}".format(colorama.Fore.GREEN if answers['scores'][i] == max(answers['scores']) and answers['scores'][i] >= score_settings['bad_response_threshold'] else colorama.Fore.YELLOW if answers['scores'][i] >= score_settings['bad_response_threshold'] else colorama.Fore.RED, answers['answers'][i], colorama.Fore.RESET, answers['scores'][i], colorama.Fore.BLUE, answers['score_modifiers'][i] if score_settings['show_score_modifiers'] else '', colorama.Fore.RESET))
 
             
-            #message.insert(END, "bot : " + str(answer))
             textField.delete(0, END)
 
 
