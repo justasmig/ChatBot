@@ -17,6 +17,28 @@ from core.scorer import score_answers
 sys.path.remove(os.path.dirname(os.path.realpath(__file__)) + "/core")
 import colorama
 import random
+from tkinter import * 
+
+#code copied from chatbot003.py file.
+import time
+from Weatherapp import *
+#from alarmclock import * #temp disable of alarmclock
+from Kacper_code import *
+
+# Declaring Variables
+greetings = ["Hello . What can I do for you?", "What do you need?", "What now!"]
+command_list=["Alarm clock","Weather {city}","Date and time","Ask a question" ,
+              'Get a joke or a fact ',
+              'calculator {number1} {operator + - * / **} {number 2}','Make a simulation of flipping a coin or rolling six sided dice',
+              "Sort a list of number", "Got to go" ]
+#code from chatbot003.py end
+
+from anime import *
+from adventure import *
+
+'''
+ADAPTED CODE DOWNLOADED FROM https://github.com/daniel-kukiela/nmt-chatbot
+'''
 
 current_stdout = None
 
@@ -273,38 +295,138 @@ def process_questions(questions, return_score_modifiers = False):
     return prepared_answers_list
 
 # interactive mode
-if __name__ == "__main__":
 
-    # Input file
-    if sys.stdin.isatty() == False:
+# if __name__ == "__main__":
 
-        # Process questions
-        answers_list = process_questions(sys.stdin.readlines())
+#     # Input file
+#     if sys.stdin.isatty() == False:
 
-        # Print answers
-        for answers in answers_list:
-            print(answers['answers'][answers['best_index']])
+#         # Process questions
+#         answers_list = process_questions(sys.stdin.readlines())
 
-        sys.exit()
+#         # Print answers
+#         for answers in answers_list:
+#             print(answers['answers'][answers['best_index']])
 
+#         sys.exit()
+
+#     # Interactive mode
+#     colorama.init()
+#     print("\n\nStarting interactive mode (first response will take a while):")
+
+#     # Specified model
+#     if len(sys.argv) >= 2 and sys.argv[1]:
+#         checkpoint = hparams['out_dir'] + str(sys.argv[1])
+#         hparams['ckpt'] = checkpoint
+#         print("Using checkpoint: {}".format(checkpoint))
+
+#     # QAs
+#     while True:
+#         question = input("\n> ")
+#         answers = inference_internal(question)[0]
+#         if answers is None:
+#             print(colorama.Fore.RED + "! Question can't be empty" + colorama.Fore.RESET)
+#         else:
+#             for i, _ in enumerate(answers['scores']):
+#                 print("{}- {}{} [{}] {}{}{}".format(colorama.Fore.GREEN if answers['scores'][i] == max(answers['scores']) and answers['scores'][i] >= score_settings['bad_response_threshold'] else colorama.Fore.YELLOW if answers['scores'][i] >= score_settings['bad_response_threshold'] else colorama.Fore.RED, answers['answers'][i], colorama.Fore.RESET, answers['scores'][i], colorama.Fore.BLUE, answers['score_modifiers'][i] if score_settings['show_score_modifiers'] else '', colorama.Fore.RESET))
+
+
+'''
+ADAPTED CODE DOWNLOADED FROM https://github.com/daniel-kukiela/nmt-chatbot
+'''
+
+
+# Justas modified Version of chatbot inference
+#if __name__ == "__main__":
+def chatBotInference(interface):   
     # Interactive mode
     colorama.init()
-    print("\n\nStarting interactive mode (first response will take a while):")
+   # QAs
+    window = Toplevel(interface)
 
-    # Specified model
-    if len(sys.argv) >= 2 and sys.argv[1]:
-        checkpoint = hparams['out_dir'] + str(sys.argv[1])
-        hparams['ckpt'] = checkpoint
-        print("Using checkpoint: {}".format(checkpoint))
+    window.geometry("500x650")
 
-    # QAs
-    while True:
-        question = input("\n> ")
-        answers = inference_internal(question)[0]
-        if answers is None:
-            print(colorama.Fore.RED + "! Question can't be empty" + colorama.Fore.RESET)
-        else:
-            for i, _ in enumerate(answers['scores']):
-                print("{}- {}{} [{}] {}{}{}".format(colorama.Fore.GREEN if answers['scores'][i] == max(answers['scores']) and answers['scores'][i] >= score_settings['bad_response_threshold'] else colorama.Fore.YELLOW if answers['scores'][i] >= score_settings['bad_response_threshold'] else colorama.Fore.RED, answers['answers'][i], colorama.Fore.RESET, answers['scores'][i], colorama.Fore.BLUE, answers['score_modifiers'][i] if score_settings['show_score_modifiers'] else '', colorama.Fore.RESET))
+    window.title("Our Chatbot")
 
+    # icon = PhotoImage(file="chatbot.png")
+    # photo = Label(window, image=icon)
+    # photo.pack(pady=5)
+
+    frame = Frame(window)
+
+    readBox = Scrollbar(frame)
+    message = Listbox(frame,width=80,height=20)
+
+    readBox.pack(side=RIGHT,fill=Y)
+
+    message.pack(side=LEFT,fill=BOTH,pady=10)
+
+    frame.pack()
+
+    textField= Entry(window,font=("Arial",10))
+    textField.pack(fill=X,pady=10)
+    
+    def ask():
+        question = textField.get()
+        message.insert(END, "you : " + question)
+        questionTemp = question.upper()
+        if questionTemp == 'ANIME':
+            message.insert(END, "bot autoreply: *PLEASE USE CONSOLE TO CHECK OUT ANIME*.")
+            anime()
+        elif questionTemp == 'ADVENTURE':
+            message.insert(END, "bot autoreply: *PLEASE USE CONSOLE TO GO ON ADVENTURE*.")
+            textAdventure()
+        #code copied from Chatbot003.py file. Modifications: replaced print with interface, removed time.sleep.
+        elif questionTemp == "I AM DEPRESSED":
+            message.insert(END, "bot autoreply: I'm sorry to hear that. Chat with me, it will help you feel better :) .") #modified by Justas, removed name, modified reply.
+        elif "COMPLIMENT ME" in questionTemp:
+            message.insert(END, "bot autoreply: You don't need to be complimented.")
+        elif "RELAX" in questionTemp:
+            message.insert(END, "bot autoreply: Hey its not my fault, I was born this way.")
+        elif "COMMAND LIST" in questionTemp:
+            message.insert(END, "bot autoreply: My current command list is:")
+            message.insert(END, command_list)
+            '''
+        elif "HELLO" in questionTemp or "HI" in questionTemp:
+            message.insert(END, "bot autoreply: " + random.choice(greetings))
+            '''
+        elif "WEATHER" in questionTemp:
+            message.insert(END, "bot autoreply: " + countryChatbot(question[7:].strip()))
+        elif "ALARM CLOCK" in questionTemp:
+            message.insert(END, "bot autoreply: My clock is not working that great yet.. So I will not launch it to you, sorry.") #disabled alarm clock temporary
+            #runner()
+        elif "QUESTION" in questionTemp:
+            message.insert(END, "bot autoreply: My questions quarry is not working that great yet.. So I will not launch it to you, sorry.") #disabled questions temporary
+            #queries()
+        elif "JOKE" in questionTemp:
+            jokesChatbot()
+        elif "FACTS" in questionTemp:
+            factsChatbot()
+        elif "CALCULATOR" in questionTemp:
+            message.insert(END, "bot autoreply: I'm bad at math. Sorry no calculator today") #disabled calculator temporary
+            #calculatorChatbot()
+        elif "COIN FLIP" in questionTemp:
+            message.insert(END, "Coin is fliping...")
+            message.insert(END, coinChatbot())
+        elif "ROLL DICE" in questionTemp:
+            message.insert(END, "Dice is rolling...")
+            message.insert(END, diceChatbot())
+        #code copied from Chatbot003.py end.
+        
+        else: 
+            answers = inference_internal(question)[0]#bot.get_response(question)            
+            if answers is None:
+                message.insert(END, "bot : Sorry, but I can't reply to nothing.")
+            else:
+                for i, _ in enumerate(answers['scores']):
+                    message.insert(END, "bot : {}".format(answers['answers'][i]))
+
+        
+        #message.insert(END, "bot : " + str(answer))
+        textField.delete(0, END)
+
+    btn = Button(window,text="Send",font=10,command=ask)
+    btn.pack()
+    window.mainloop()
+    
 os.chdir(original_cwd)

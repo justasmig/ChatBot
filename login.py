@@ -1,6 +1,8 @@
 from tkinter import *
 import os
 import hashlib
+from inference import *
+
 def LoggedIn_Sucessfully():
     GUI_Screen_03 = Toplevel(Interface)
     GUI_Screen_03.title("You are in!")
@@ -17,9 +19,10 @@ def LoggedIn_Sucessfully():
     Button(GUI_Screen_03, text="Logout", command=GUI_Screen_03.destroy).pack()
 
 def chat():
-    GUI_Screen_03 = Toplevel(Interface)
-    GUI_Screen_03.geometry("720x520")
-    Label(GUI_Screen_03, text="Chat with our Bot", font=("calibri", 15)).pack()
+    # GUI_Screen_03 = Toplevel(Interface)
+    # GUI_Screen_03.geometry("720x520")
+    # Label(GUI_Screen_03, text="Chat with our Bot", font=("calibri", 15)).pack()
+    chatBotInference()
 
 
 def guessing_game():

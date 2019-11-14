@@ -106,3 +106,5 @@ venv.bak/
 # mypy
 .mypy_cache/
 chatbotUtils/model/translate.ckpt-2763.data-00000-of-00001
+model/old/translate.ckpt-2763.data-00000-of-00001
+model/translate.ckpt-24368.data-00000-of-00001
