@@ -68,7 +68,7 @@ def calculator():
     num1 = float (input("Enter  first number: "))
     op = input("Enter the operator: ")
     num2 = float (input("Enter  second number: "))
-# lines 72-83 - check the operation between addition, subtraction, multiplication, division, modulo and power
+# lines 72-83 - check the operation between addition, subtraction, multiplication, division, modulo and power then return proper result
     if op == "+":
         return num1+num2
     elif op =="-":
@@ -132,8 +132,11 @@ def quickSort(listN):
     else:
         return listN
 i=1
+#in lines 136 - 17 there is a while loop which greets the user in various ways,
+#give options that can be used and run the right function depending on the user's choice
 while i>0:
     print(choice(Greeting) )
+#for loop in lines 140-142 print all possible options to choose from in new line
     for option in range (len(optionsOfChatB)):
         print (optionsOfChatB[option])
     userChoice=  input("Which of the above options would you like to choose?: ")
@@ -141,6 +144,7 @@ while i>0:
     if   userChoice=="1":
         print(queries())
     elif userChoice=="2":
+#148-150 lines get the current time from python function "now" and information about time and date to appropriate variables
         now = datetime.datetime.now()
         time = now.strftime("%H:%M")
         date = now.strftime("%d.%m.%Y")
@@ -156,6 +160,7 @@ while i>0:
         else:
             dice()
     elif userChoice=="6":
+# 164-169 lines -creat a  list of numbers given by the user and of the length given by user
         print("How many numbers to sort?: ")
         num=int (input())
         listOfNumbers = []
