@@ -19,6 +19,8 @@ import colorama
 import random
 from tkinter import * 
 
+import wget
+
 #code copied from chatbot003.py file.
 import time
 from Weatherapp import *
@@ -332,16 +334,30 @@ def process_questions(questions, return_score_modifiers = False):
 
 
 '''
-ADAPTED CODE DOWNLOADED FROM https://github.com/daniel-kukiela/nmt-chatbot
+ADAPTED CODE DOWNLOADED FROM https://github.com/daniel-kukiela/nmt-chatbot end
 '''
+
+# Justas function to download the tensorflow model from GDrive.
+def downloadModel():
+    url = 'https://srv-file4.gofile.io/download/OpFQXa/translate.ckpt-24368.data-00000-of-00001'
+    wget.download(url, 'model/translate.ckpt-24368.data-00000-of-00001')
+# Justas function end.
 
 
 # Justas modified Version of chatbot inference
 #if __name__ == "__main__":
 def chatBotInference(interface):   
+    
+    if not(os.path.exists('model/translate.ckpt-24368.data-00000-of-00001')):
+        try:
+            downloadModel()
+        except:
+            print("ERROR downloading model")
+        
     # Interactive mode
     colorama.init()
-   # QAs
+   
+    '''Daves integration of chat window in TKinter used and adapted by Justas'''
     window = Toplevel(interface)
 
     window.geometry("500x650")
@@ -365,7 +381,8 @@ def chatBotInference(interface):
 
     textField= Entry(window,font=("Arial",10))
     textField.pack(fill=X,pady=10)
-    
+    '''Davis integration end'''
+    # In Ask() function Justas is combining all of the code other team members wrote to get desired chatbot results. (our goal was to create something like bixby or google assistant)
     def ask():
         question = textField.get()
         message.insert(END, "you : " + question)
@@ -375,6 +392,7 @@ def chatBotInference(interface):
             anime()
         elif questionTemp == 'ADVENTURE':
             message.insert(END, "bot autoreply: *PLEASE USE CONSOLE TO GO ON ADVENTURE*.")
+            #textAdventure(window)
             textAdventure()
         #code copied from Chatbot003.py file. Modifications: replaced print with interface, removed time.sleep.
         elif questionTemp == "I AM DEPRESSED":
@@ -413,20 +431,24 @@ def chatBotInference(interface):
             message.insert(END, diceChatbot())
         #code copied from Chatbot003.py end.
         
+        # Justas' created tensorflow model usage if none of the commands are said to the bot.
         else: 
-            answers = inference_internal(question)[0]#bot.get_response(question)            
-            if answers is None:
-                message.insert(END, "bot : Sorry, but I can't reply to nothing.")
-            else:
-                for i, _ in enumerate(answers['scores']):
-                    message.insert(END, "bot : {}".format(answers['answers'][i]))
-
+            try:
+                answers = inference_internal(question)[0]#bot.get_response(question)            
+                if answers is None:
+                    message.insert(END, "bot : Sorry, but I can't reply to nothing.")
+                else:
+                    for i, _ in enumerate(answers['scores']):
+                        message.insert(END, "bot : {}".format(answers['answers'][i]))
+            except:
+                print("Error when getting answers")
         
         #message.insert(END, "bot : " + str(answer))
         textField.delete(0, END)
 
+    '''Davis' created chatbot interface in TKinter'''
     btn = Button(window,text="Send",font=10,command=ask)
     btn.pack()
     window.mainloop()
-    
+    '''Davis' created chatbot interface in TKinter end'''
 os.chdir(original_cwd)
